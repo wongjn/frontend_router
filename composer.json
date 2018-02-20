@@ -1,0 +1,11 @@
+{
+    "name": "wongjn/frontend_router",
+    "description": "Provides support in the backend for a frontend router.",
+    "type": "drupal-module",
+    "authors": [
+        {
+            "name": "wongjn",
+            "role": "Developer"
+        }
+    ]
+}

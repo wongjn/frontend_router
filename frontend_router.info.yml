@@ -1,0 +1,4 @@
+name: Frontend Router (Backend)
+description: Provides support in the backend for a frontend router.
+type: module
+core: 8.x

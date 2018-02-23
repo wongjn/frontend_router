@@ -2,8 +2,6 @@
 
 namespace Drupal\frontend_router\Form;
 
-use Drupal\Component\Utility\UrlHelper;
-use Drupal\Core\EventSubscriber\AjaxResponseSubscriber;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\frontend_router\EventSubscriber\FrontendRouterResponseSubscriber;
@@ -89,17 +87,7 @@ class FrontendRouterFormBuilder implements FormBuilderInterface {
     $build = $this->formBuilder->renderPlaceholderFormAction();
 
     if (FrontendRouterResponseSubscriber::isRouted()) {
-      $parsed = UrlHelper::parse($build['#markup']);
-
-      // Remove remaining routing/AJAX related query parameters from the action
-      // URL that weren't filtered by
-      // \Drupal\Core\Form\FormBuilder::buildFormAction() or equivalent.
-      unset(
-        $parsed['query']['ajax_page_state'],
-        $parsed['query'][AjaxResponseSubscriber::AJAX_REQUEST_PARAMETER]
-      );
-
-      $build['#markup'] = $parsed['path'] . ($parsed['query'] ? ('?' . UrlHelper::buildQuery($parsed['query'])) : '');
+      $build['#markup'] = frontend_router_filter_query($build['#markup']);
     }
 
     return $build;

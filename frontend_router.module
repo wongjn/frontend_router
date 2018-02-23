@@ -5,6 +5,9 @@
  * Exeter Leukaemia Fund frontend router module.
  */
 
+use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\EventSubscriber\AjaxResponseSubscriber;
+use Drupal\Core\EventSubscriber\MainContentViewSubscriber;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\frontend_router\EventSubscriber\FrontendRouterResponseSubscriber;
 
@@ -83,6 +86,31 @@ function frontend_router_preprocess_page__fragment(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK() for pager.html.twig.
+ *
+ * Removes router-related query parameters from pager links.
+ */
+function frontend_router_preprocess_pager(&$variables) {
+  foreach ($variables['items'] as $key => $item) {
+    if ($key == 'pages') {
+      foreach ($item as $index => $page) {
+        if (!isset($page['href'])) {
+          continue;
+        }
+
+        $variables['items'][$key][$index]['href'] = frontend_router_filter_query($page['href']);
+      }
+    }
+
+    if (!isset($item['href'])) {
+      continue;
+    }
+
+    $variables['items'][$key]['href'] = frontend_router_filter_query($item['href']);
+  }
+}
+
+/**
  * Implements hook_theme_suggestions_HOOK() for html.
  */
 function frontend_router_theme_suggestions_html() {
@@ -124,4 +152,24 @@ function frontend_router_form_system_theme_settings_alter(&$form, FormStateInter
       '#default_value' => $theme_integrator->getFragmentRegions($theme),
     ],
   ];
+}
+
+/**
+ * Removes router-related query parameters from a URL string.
+ *
+ * @param string $url
+ *   The URL to filter query parameters from.
+ *
+ * @return string
+ *   The filterred URl.
+ */
+function frontend_router_filter_query($url) {
+  $parsed = UrlHelper::parse($url);
+  $parsed['query'] = UrlHelper::filterQueryParameters($parsed['query'], [
+    AjaxResponseSubscriber::AJAX_REQUEST_PARAMETER,
+    MainContentViewSubscriber::WRAPPER_FORMAT,
+    'ajax_page_state',
+  ]);
+
+  return $parsed['path'] . ($parsed['query'] ? ('?' . UrlHelper::buildQuery($parsed['query'])) : '');
 }

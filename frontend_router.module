@@ -91,22 +91,24 @@ function frontend_router_preprocess_page__fragment(&$variables) {
  * Removes router-related query parameters from pager links.
  */
 function frontend_router_preprocess_pager(&$variables) {
-  foreach ($variables['items'] as $key => $item) {
-    if ($key == 'pages') {
-      foreach ($item as $index => $page) {
-        if (!isset($page['href'])) {
-          continue;
+  if (isset($variables['items'])) {
+    foreach ($variables['items'] as $key => $item) {
+      if ($key == 'pages') {
+        foreach ($item as $index => $page) {
+          if (!isset($page['href'])) {
+            continue;
+          }
+
+          $variables['items'][$key][$index]['href'] = frontend_router_filter_query($page['href']);
         }
-
-        $variables['items'][$key][$index]['href'] = frontend_router_filter_query($page['href']);
       }
-    }
 
-    if (!isset($item['href'])) {
-      continue;
-    }
+      if (!isset($item['href'])) {
+        continue;
+      }
 
-    $variables['items'][$key]['href'] = frontend_router_filter_query($item['href']);
+      $variables['items'][$key]['href'] = frontend_router_filter_query($item['href']);
+    }
   }
 }
 

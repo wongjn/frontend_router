@@ -39,7 +39,10 @@ class FrontendRouterFormBuilder implements FormBuilderInterface {
    * {@inheritdoc}
    */
   public function getForm($form_arg) {
-    return $this->formBuilder->getForm($form_arg);
+    return call_user_func_array(
+      [$this->formBuilder, 'getForm'],
+      func_get_args()
+    );
   }
 
   /**

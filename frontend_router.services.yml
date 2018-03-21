@@ -19,9 +19,3 @@ services:
     arguments: ['@title_resolver', '@plugin.manager.display_variant', '@event_dispatcher', '@module_handler', '@renderer', '@render_cache', '%renderer.config%']
     tags:
       - { name: render.main_content_renderer, format: frontend_router }
-
-  frontend_router.form_builder:
-    class: Drupal\frontend_router\Form\FrontendRouterFormBuilder
-    decorates: form_builder
-    arguments: ['@frontend_router.form_builder.inner']
-    public: false

@@ -175,3 +175,33 @@ function frontend_router_filter_query($url) {
 
   return $parsed['path'] . ($parsed['query'] ? ('?' . UrlHelper::buildQuery($parsed['query'])) : '');
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function frontend_router_form_alter(&$form, FormStateInterface $form_state) {
+  if (FrontendRouterResponseSubscriber::isRouted()) {
+    // @todo match placeholder when a proper API is implemented. The placeholder
+    //  uses a fixed string that is
+    //  Crypt::hashBase64('Drupal\Core\Form\FormBuilder::prepareForm');
+    $action_placeholder = 'form_action_p_pvdeGsVG5zNF_XLGPTvYSKCf43t8qZYSwcfZl2uzM';
+
+    $form['#attached']['placeholders'][$action_placeholder]['#lazy_builder'] = [
+      'frontend_router_render_form_action_placeholder',
+      [],
+    ];
+  }
+}
+
+/**
+ * Builds the $form['#action'] for routed form markup
+ *
+ * @return array
+ *   A renderable array representing the form action.
+ *
+ */
+function frontend_router_render_form_action_placeholder() {
+  $build = \Drupal::formBuilder()->renderPlaceholderFormAction();
+  $build['#markup'] = frontend_router_filter_query($build['#markup']);
+  return $build;
+}

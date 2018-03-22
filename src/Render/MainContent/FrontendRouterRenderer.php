@@ -2,11 +2,11 @@
 
 namespace Drupal\frontend_router\Render\MainContent;
 
-use Drupal\Core\Render\MainContent\HTMLRenderer;
+use Drupal\Core\Render\MainContent\HtmlRenderer;
 
 /**
  * Main content renderer for frontend-routed pages.
  */
-class FrontendRouterRenderer extends HTMLRenderer {
+class FrontendRouterRenderer extends HtmlRenderer {
 
 }

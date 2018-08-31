@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Exeter Leukaemia Fund frontend router module.
+ * Provides support in the backend for a frontend router.
  */
 
 use Drupal\Component\Utility\UrlHelper;

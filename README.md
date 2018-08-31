@@ -8,7 +8,7 @@ frontend JS-powered router.
 The response renders with `html__fragment` and `page__fragment` as theme hook
 suggestions so that themes can modify the response how they like.
 
-Changable regions are also wrapped in `router-content` HTML tags with the `area`
+Changeable regions are also wrapped in `router-content` HTML tags with the `area`
 tag being the ID of the region. This can be used to identify them and the tag
 also gives a consistent parent for manipulation. Regions can be marked as
 _changeable_, from the theme's settings page.

@@ -69,6 +69,10 @@ function frontend_router_preprocess_page(&$variables) {
     $variables['page'][$region]['#theme_wrappers']['router_fragment'] = [
       '#key' => $region,
     ];
+
+    if (FrontendRouterResponseSubscriber::isRouted()) {
+      $variables['page'][$region]['#post_render'][] = 'frontend_router.theme_integration:filterNoscriptTags';
+    }
   }
 }
 

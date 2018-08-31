@@ -84,54 +84,11 @@ class FrontendRouterResponseSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Removes any noscript HTML tags.
-   *
-   * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
-   *   The response event.
-   */
-  public function onResponse(FilterResponseEvent $event) {
-    // Only care about partial (frontend-routed) HTML responses.
-    if (!self::isRouted() || stripos($event->getResponse()->headers->get('Content-Type'), 'text/html') === FALSE) {
-      return;
-    }
-
-    $response = $event->getResponse();
-    $response->setContent(static::filterNoScriptTags($response->getContent()));
-  }
-
-  /**
-   * Removes any noscript HTML tags.
-   *
-   * @param string $html_markup
-   *   The HTML markup to remove noscript tags from.
-   *
-   * @return string
-   *   The filtered HTML markup.
-   */
-  public static function filterNoScriptTags($html_markup) {
-    // No <noscript> tags found, return early.
-    if (stripos($html_markup, '<noscript') === FALSE) {
-      return $html_markup;
-    }
-
-    $dom = new \DOMDocument();
-    // Load DOMDocument without any extra html, body or doctype HTML tags.
-    @$dom->loadHTML($html_markup, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    foreach ($dom->getElementsByTagName('noscript') as $node) {
-      $node->parentNode->removeChild($node);
-    }
-    return $dom->saveHTML();
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
     // Just after DynamicPageCacheSubscriber::onRequest()
     $events[KernelEvents::REQUEST][] = ['onRequest', 26];
-    // Should run after any other response subscriber that modifies the markup.
-    // This is just after ActiveLinkResponseFilter (priority -512).
-    $events[KernelEvents::RESPONSE][] = ['onResponse', -513];
 
     return $events;
   }

@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [Unreleased]
 ------------
 
+[1.0.6] - 2018-08-31
+--------------------
+### Fixed
+- Fix malformed fragment response content when twig debug is not enabled
+
 [1.0.5] - 2018-08-31
 --------------------
 ### Changed

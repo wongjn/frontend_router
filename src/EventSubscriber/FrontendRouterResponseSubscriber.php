@@ -2,6 +2,7 @@
 
 namespace Drupal\frontend_router\EventSubscriber;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\EventSubscriber\MainContentViewSubscriber;
 use Drupal\Core\Theme\ThemeManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -114,13 +115,17 @@ class FrontendRouterResponseSubscriber implements EventSubscriberInterface {
       return $html_markup;
     }
 
-    $dom = new \DOMDocument();
-    // Load DOMDocument without any extra html, body or doctype HTML tags.
-    @$dom->loadHTML($html_markup, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    $dom = Html::load($html_markup);
+
     foreach ($dom->getElementsByTagName('noscript') as $node) {
       $node->parentNode->removeChild($node);
     }
-    return $dom->saveHTML();
+
+    $html = '';
+    foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {
+      $html .= $dom->saveHTML($node);
+    }
+    return $html;
   }
 
   /**

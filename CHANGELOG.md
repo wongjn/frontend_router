@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [Unreleased]
 ------------
 
+[1.0.7] - 2018-09-01
+--------------------
+### Changed
+- Filter full response content for noscript tags
+- Revert "Fix malformed content when disabled twig debug"
+
 [1.0.6] - 2018-08-31
 --------------------
 ### Fixed

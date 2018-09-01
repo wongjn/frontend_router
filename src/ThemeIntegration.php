@@ -68,28 +68,4 @@ class ThemeIntegration {
     return ['content'];
   }
 
-  /**
-   * Removes any noscript HTML tags.
-   *
-   * @param string $html_markup
-   *   The HTML markup to remove noscript tags from.
-   *
-   * @return string
-   *   The filtered HTML markup.
-   */
-  public function filterNoscriptTags($html_markup) {
-    // No <noscript> tags found, return early.
-    if (stripos($html_markup, '<noscript') === FALSE) {
-      return $html_markup;
-    }
-
-    $dom = new \DOMDocument();
-    // Load DOMDocument without any extra html, body or doctype HTML tags.
-    @$dom->loadHTML($html_markup, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    foreach ($dom->getElementsByTagName('noscript') as $node) {
-      $node->parentNode->removeChild($node);
-    }
-    return $dom->saveHTML();
-  }
-
 }

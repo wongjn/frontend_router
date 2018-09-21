@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [Unreleased]
 ------------
 
+[1.0.8] - 2018-09-21
+--------------------
+### Changed
+- Move changeable regions data to `third_party_settings`
+
+### Added
+- Add schema
+
 [1.0.7] - 2018-09-01
 --------------------
 ### Changed

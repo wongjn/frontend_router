@@ -1,0 +1,12 @@
+# Schema for the configuration files of the Frontend Router (Backend) module.
+
+theme_settings.third_party.frontend_router:
+  type: mapping
+  label: 'Frontend router theme settings'
+  mapping:
+    regions:
+      type: sequence
+      label: 'Changable regions'
+      sequence:
+        type: boolean
+

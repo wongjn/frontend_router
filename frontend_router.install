@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Frontend Router module.
+ */
+
+/**
+ * Move theme settings from this module to third_party_settings.
+ * Match region selection data to schema.
+ */
+function frontend_router_update_8101() {
+  $config_factory = \Drupal::configFactory();
+
+  foreach (array_keys(system_list('theme')) as $theme_name) {
+    $config = $config_factory->getEditable("$theme_name.settings");
+
+    $existing_values = $config->get('frontend_router');
+    if ($existing_values) {
+      // Type cast region selection to match schema.
+      foreach ($existing_values['regions'] as $key => $value) {
+        $existing_values['regions'][$key] = !!$value;
+      }
+
+      $config->set('third_party_settings.frontend_router', $existing_values);
+      $config->clear('frontend_router');
+    }
+
+    $config->save(TRUE);
+  }
+}

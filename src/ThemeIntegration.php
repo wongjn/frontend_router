@@ -59,7 +59,7 @@ class ThemeIntegration {
 
     $regions = $this->configFactory
       ->get("$theme_name.settings")
-      ->get('frontend_router.regions');
+      ->get('third_party_settings.frontend_router.regions');
 
     if (is_array($regions)) {
       return array_keys(array_filter($regions));

@@ -5,6 +5,12 @@ services:
     tags:
       - { name: event_subscriber }
 
+  frontend_router_fragment_no_cache:
+    class: Drupal\frontend_router\PageCache\ResponsePolicy\FragmentNoCache
+    public: false
+    tags:
+      - { name: page_cache_response_policy }
+
   frontend_router.placeholder_strategy:
     class: Drupal\frontend_router\Render\Placeholder\FrontendRouterStrategy
     tags:

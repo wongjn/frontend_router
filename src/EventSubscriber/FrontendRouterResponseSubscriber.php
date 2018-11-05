@@ -115,17 +115,14 @@ class FrontendRouterResponseSubscriber implements EventSubscriberInterface {
       return $html_markup;
     }
 
-    $dom = Html::load($html_markup);
+    $dom = new \DOMDocument();
+    @$dom->loadHTML('<?xml encoding="utf-8" ?>' . $html_markup);
 
     foreach ($dom->getElementsByTagName('noscript') as $node) {
       $node->parentNode->removeChild($node);
     }
 
-    $html = '';
-    foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {
-      $html .= $dom->saveHTML($node);
-    }
-    return $html;
+    return $dom->saveHTML();
   }
 
   /**

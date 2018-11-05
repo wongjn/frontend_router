@@ -76,11 +76,10 @@ class FrontendRouterResponseSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $request = $event->getRequest();
-    // Frontend theme and current request theme does not match:
-    if ($request->get('ajax_page_state')['theme'] != $this->themeManager->getActiveTheme()->getName()) {
-      $response = new Response('__INVALID_THEME__', 200, ['Content-Type' => 'text/plain']);
-      $event->setResponse($response);
+    $page_state = $event->getRequest()->get('ajax_page_state');
+    if (!$page_state || $page_state['theme'] != $this->themeManager->getActiveTheme()->getName()) {
+      $error_response = new Response('__INVALID__', Response::HTTP_BAD_REQUEST, ['Content-Type' => 'text/plain']);
+      $event->setResponse($error_response);
     }
   }
 

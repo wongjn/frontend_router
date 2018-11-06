@@ -48,8 +48,12 @@ class FrontendRouterResponseSubscriber implements EventSubscriberInterface {
       $wrapper_format = \Drupal::requestStack()
         ->getMasterRequest()
         ->get(MainContentViewSubscriber::WRAPPER_FORMAT);
+      $requested_with = \Drupal::requestStack()
+        ->getMasterRequest()
+        ->headers
+        ->get('X-Requested-With');
 
-      self::$routed = $wrapper_format == self::FRONTEND_ROUTER_FORMAT;
+      self::$routed = $wrapper_format == self::FRONTEND_ROUTER_FORMAT || $requested_with == 'swup';
     }
 
     return self::$routed;

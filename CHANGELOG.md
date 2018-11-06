@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [Unreleased]
 ------------
 
+[1.1.1] - 2018-11-06
+--------------------
+### Added
+- Add Swup JS library support
+
 [1.1.0] - 2018-11-05
 --------------------
 ### Changed
